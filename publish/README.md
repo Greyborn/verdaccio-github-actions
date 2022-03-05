@@ -1,24 +1,45 @@
-# Publish a NPM package in a local registry with Verdaccio
+# Publish a NPM package to a Verdaccio registry
 
 Test the integrity of a package publishing in [Verdaccio](https://verdaccio.org/).
+
+This is a based in Docker GitHub Action.
 
 See in action in a full example:
 
 ```
-nname: Publish Pre-check
+name: Release and Publish
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
-  testVerdaccio:
-    name: Test Verdaccio Publish
+  publish:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Publish
-      uses: verdaccio/github-actions/publish@v0.1.0
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Publish Package
+      uses: Greyborn/verdaccio-github-actions/publish@master
       with:
+        registry: ${{ secrets.VERDACCIO_REGISTRY }}
+        username: ${{ secrets.VERDACCIO_USERNAME }}
+        password: ${{ secrets.VERDACCIO_PASSWORD }}
+        email: ${{ secrets.VERDACCIO_EMAIL }}
         args: -d
 ```
 
-This is a based in Docker GitHub Action.
+## Inputs
+
+### Optional Inputs
+
+| Property   | Description                       | Default Value         |
+| ---------- | --------------------------------- | --------------------- |
+| `registry` | Registry URL (and port)           | `http://0.0.0.0:4873` |
+| `username` | Registry account username         | `test`                |
+| `password` | Registry account password         | `test`                |
+| `email`    | Registry account email address    | `user@example.com`    |
+| `debug`    | npm debug level                   | `-ddd`                |
+| `args`     | Additional command line arguments | Same as `debug`       |
