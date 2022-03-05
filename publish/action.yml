@@ -2,6 +2,18 @@ name: 'Verdaccio Publish Action v2'
 description: 'This action will deploy your package to Verdaccio Registry'
 author: 'GitHub'
 inputs:
+  registry:
+    description: 'Registry URL'
+    default: 'http://0.0.0.0:4873'
+  username:
+    description: 'Registry account username'
+    default: 'test'
+  password:
+    description: 'Registry account password'
+    default: 'test'
+  email:
+    description: 'Registry account email'
+    default: 'user@example.com'
   debug:
     description: 'npm debug level'
     default: '-ddd'
